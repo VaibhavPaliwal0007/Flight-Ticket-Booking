@@ -22,9 +22,9 @@ const MyBooking = async () => {
 
   return (
     <div>
-      {bookings.map(booking => (
+      {/* {bookings.map(booking => (
         <Card flight={booking} />))
-      }
+      } */}
     </div>
   )
 }
