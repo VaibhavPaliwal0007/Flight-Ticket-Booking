@@ -39,7 +39,7 @@ const logout = async (req, res) => {
     }
 };
 
-// const loginAdmin = async (req, res) => {  // no need to make a seperate admin login will deal with this in middleware.
+// const loginAdmin = async (req, res) => {  
 //     try {
 //         const user = await User.findByCredentials(
 //             req.body.email,

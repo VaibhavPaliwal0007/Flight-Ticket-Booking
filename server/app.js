@@ -5,9 +5,10 @@ const app = express();
 app.use(express.json());
 require('./src/db'); 
 
-app.get('/', (req, res) => {
-    res.status(200).send("Hello World");
-});
+const { authenticationRoute, flightRoute } = require('./src/routes');
+
+app.use('/api/v1/auth', authenticationRoute);
+app.use('/api/v1/flight', flightRoute);
 
 app.get("*", (req, res) => {
     res.status(404).send({ message: "Page not found" });

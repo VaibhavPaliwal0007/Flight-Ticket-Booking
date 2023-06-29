@@ -13,7 +13,7 @@ const FlightDetailSchema = new mongoose.Schema({
     },
 
     date: {
-        type: String,
+        type: Date,
         required: true
     },
 
@@ -23,12 +23,12 @@ const FlightDetailSchema = new mongoose.Schema({
     },
 
     fromTime: {
-        type: String,
+        type: Date,
         required: true
     },
 
     toTime: {
-        type: String,
+        type: Date,
         required: true
     },
 
@@ -39,6 +39,19 @@ const FlightDetailSchema = new mongoose.Schema({
         }
     ],
 });
+
+FlightDetailSchema.statics.findById = async function (id) {
+    const FlightDetail = this;
+    const flight = await FlightDetail.findOne({
+         _id: id
+    }).populate("passengers", {
+         email: 1,
+          _id: 1
+    });
+
+    return flight;
+};
+
 
 const FlightDetail = mongoose.model("FlightDetail", FlightDetailSchema);
 
