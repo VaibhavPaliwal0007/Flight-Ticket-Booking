@@ -64,7 +64,6 @@ const userSchema = new mongoose.Schema({
 
     isAdmin: {
         type: Boolean,
-        required: true,
         default: false,
     },
 });
@@ -93,7 +92,11 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
  };
 
- authorSchema.statics.findByCredentials = async function (email, password) {
+ userSchema.statics.findByCredentials = async function (email, password) {
+    if (!email || !password) {
+        throw new Error("Please provide email and password");
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
