@@ -45,11 +45,11 @@ export default function SearchFlight() {
             </div>
             <button onClick={submitHandler}>Search</button>
 
-            <div>
+            {/* <div>
                 {flights.map(flight => (
                     <Card flight={flight} key={flight._id} />
                 ))}
-            </div>
+            </div> */}
 
         </div>)
 
