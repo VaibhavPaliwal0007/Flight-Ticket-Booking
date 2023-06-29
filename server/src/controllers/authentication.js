@@ -4,10 +4,13 @@ const signup = async (req, res) => {
     try {
         delete req.body.isAdmin; // Prevents a user from creating an admin account
 
-        const user = await Author.create(req.body);
+        const user = new User(req.body);
+
+        await user.save();
 
         res.status(201).json({ user });
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: error });
     }
 };
@@ -21,8 +24,9 @@ const login = async (req, res) => {
 
         const token = await user.generateAuthToken();
 
-        res.status(200).send(token);
-    } catch {
+        res.status(200).json({token});
+    } catch (error){
+        console.log(error);
         res.status(400).json({ error: error });
     }
 };

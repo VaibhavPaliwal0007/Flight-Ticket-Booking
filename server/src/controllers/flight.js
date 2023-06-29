@@ -118,7 +118,7 @@ const addFlight = async (req, res) => {
 
 const removeFlight = async (req, res) => {
     try {
-        const flight = await FlightDetail.findByIdAndDelete(req.params.id);
+        const flight = await FlightDetail.findByIdAndDelete(req.params._id);
 
         if (!flight) {
             return res.status(404).json({ error: "Flight not found" });
@@ -182,6 +182,10 @@ const viewAllBookingsOnDates = async (req, res) => {
 
         if (!flights) {
             return res.status(404).json({ message: "Flights not found on particular query" });
+        }
+
+        for (let flight of flights) {
+            flight = flight.showFormattedFlight()
         }
 
         res.status(200).json({ flights, nextStart: start + limit });

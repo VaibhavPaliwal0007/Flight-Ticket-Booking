@@ -41,7 +41,6 @@ const userSchema = new mongoose.Schema({
 
     phoneNo: {
         type: String,
-        required: true,
         trim: true,
         minlength: 10,
     },
@@ -109,7 +108,7 @@ userSchema.methods.generateAuthToken = async function () {
         throw new Error("Unable to login");
     }
 
-    return author;
+    return user;
 };
 
 userSchema.pre("save", async function (next) {

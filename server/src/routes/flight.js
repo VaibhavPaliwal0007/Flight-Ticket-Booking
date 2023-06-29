@@ -18,7 +18,7 @@ flightRoute.get('/search', validateSession, searchFlightBasedOnQuery);
 flightRoute.get('/search/dates', validateSession, searchFlightBasedOnDates);
 flightRoute.get('/mybookings', validateSession, getMyBookings);
 flightRoute.post('/add', validateAdminSession, addFlight);
-flightRoute.delete('/remove', validateAdminSession, removeFlight);
+flightRoute.delete('/remove/:_id', validateAdminSession, removeFlight);
 flightRoute.delete('/remove/given', validateAdminSession, removeFlights);
 flightRoute.post('/view/date', validateAdminSession, viewAllBookingsAtADate);
 flightRoute.post('/view/dates', validateAdminSession, viewAllBookingsOnDates);
