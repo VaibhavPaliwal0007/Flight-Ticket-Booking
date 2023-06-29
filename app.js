@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
+require('./src/db'); 
 
 app.get('/', (req, res) => {
     res.status(200).send("Hello World");
