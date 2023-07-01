@@ -35,6 +35,8 @@ const validateAdminSession = async (req, res, next) => {
             "tokens.token": token,
         });
 
+        console.log(user);
+
         if (!user || !user.isAdmin) {
             throw new Error();
         }

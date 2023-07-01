@@ -1,56 +1,129 @@
-import { useState, useSelector, useDispatch } from "react";
+import { useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { setFlights } from "@/state";
+import Card from "./Card";
+import Link from "next/link";
 
 export default function SearchFlight() {
-    const [fromTime, setFromTime] = useState("");
-    const [toTime, setToTime] = useState("");
-    const [date, setDate] = useState("");
-    const flights = useSelector(state => state.flights);
+    let src = useRef();
+    let dest = useRef();
+    let dateRef = useRef();
+    const flights = useSelector(state => state.auth.flights);
+    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
 
-    const submitHandler = async () => {
+    const submitHandler = async (e) => {
         try {
-            const response = await fetch(`${process.env.SERVER_URL}/search`, {
+            e.preventDefault();
+            let [from, to, date] = [src.current.value, dest.current.value, dateRef.current.value];
+
+            // convert in this format
+            //2023-06-30T22:25:01.867+00:00
+
+            date = new Date(dateRef.current.value);
+            date = date.toISOString();
+
+            console.log(from, to, date);
+
+            if (!from && !to && !date) {
+                alert("Please enter the details");
+                return;
+            }
+            if (!validateDate(date)) {
+                alert('Invalid city name or date')
+            }
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/flight/search?from=${from}&to=${to}&date=${date}&start=0&limit=10`, {
                 method: "GET",
                 headers: {
                     'content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({ from: fromTime, to: toTime, date }),
-
-            })
+            });
 
             const data = await response.json();
             dispatch(setFlights(data));
         }
         catch (err) {
+            console.log(err);
             alert(err.message);
         }
     }
 
-    return (
-        <div className="flex justify-end">
-            <div>
-                <label for="from">Departure Time:
-                    <input type="text" onChange={(e) => setFromTime(e.target.value)} required />
-                </label>
+    useEffect(()=>{
+        console.log(flights);
+    } , [flights]);
 
-                <label for="to">Arrival Time:
-                    <input type="text" onChange={(e) => setToTime(e.target.value)} required />
-                </label>
+    const validateDate = (selectedDate) => {
+        // Check if the selected date is not in the past
+        const currentDate = new Date().toISOString().split('T')[0];
+        return selectedDate >= currentDate;
+      };
 
-                <label for="date">Date:
-                    <input type="date" onChange={(e) => setDate(e.target.value)} required />
-                </label>
+    // const validateCity = (cityName) => {
+    // // Add your validation logic here
+    // // This is just a basic example
+    // return cityName.trim() !== '';
+    // };
 
+    if (!token) {
+        return (
+            <div className="text-center flex flex-col justify-center items-center h-80">
+                <h1 className="text-2xl font-bold">Please Login to search flights</h1>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 h-30 rounded ">
+                    <Link href="/signin">Login</Link>
+                </button>
             </div>
-            <button onClick={submitHandler}>Search</button>
+        )
+    }
 
-            {/* <div>
-                {flights.map(flight => (
-                    <Card flight={flight} key={flight._id} />
+    return (
+        <>
+            
+            <form onSubmit={submitHandler} className="mx-auto mt-10 w-10/12 flex justify-around bg-cyan-200 p-5">
+                <label className="block mb-4 ">
+                    From City:
+                    <input
+                    type="text"
+                    ref={src}
+                    className="block w-full mt-1 p-2 border-1 border-black-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                </label>
+                <label className="block mb-4">
+                    To City:
+                    <input
+                    type="text"
+                    ref={dest}
+                    className="block w-full mt-1 p-2 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                </label>
+                <label className="block mb-4">
+                    Date:
+                    <input
+                    type="date"
+                    ref={dateRef}
+                    className="block w-full mt-1 p-2 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                </label>
+                {/* {error && <div className="text-red-500 mb-4">{error}</div>} */}
+                    <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
+                    >
+                        Search
+                    </button>
+                
+            </form>
+            <div className="grid grid-cols-3 gap-2 w-10/12 m-auto">
+                {flights?.length > 0 && flights.map(flight => (
+                    <Card
+                        key={flight._id}
+                        flight={flight}
+                    />
                 ))}
-            </div> */}
-
-        </div>)
+            </div>
+            
+        </>
+    )
 
 };

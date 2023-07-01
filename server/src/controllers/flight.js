@@ -18,6 +18,8 @@ const bookTicket = async (req, res) => {
             }
         });
 
+        console.log(flight.passengers);
+
         flight.passengers.push(req.user._id);
         req.user.bookings.push(flight._id);
         await flight.save();
@@ -25,13 +27,13 @@ const bookTicket = async (req, res) => {
 
         res.status(200).json({ flight });
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ error: error.message });
     }
 };
 
 const searchFlightBasedOnQuery = async (req, res) => {
     try {
-        let { from, to, date } = req.body;
+        let { from, to, date } = req.query;
         let { limit, start } = req.query;
 
         if (!limit) {
@@ -52,6 +54,18 @@ const searchFlightBasedOnQuery = async (req, res) => {
             flights = await FlightDetail.find({ from: from, to: to }).skip(start).limit(limit);
         } else if (date) {
             flights = await FlightDetail.find({ date: date }).skip(start).limit(limit);
+        } 
+
+        if (!flights.length) {
+            flights = await FlightDetail.find().skip(start).limit(limit);
+        }
+
+        let arr = [];
+
+        for (let flight of flights) {
+            let obj = flight.showFormattedFlight();
+
+            arr.push(obj);
         }
 
         /*
@@ -62,12 +76,13 @@ const searchFlightBasedOnQuery = async (req, res) => {
         }).skip(start).limit(limit);
         */
 
-        if (!flights) {
-            return res.status(404).json({ message: "Flights not found on particular query" });
-        }
+        // if (!flights) {
+        //     return res.status(404).json({ message: "Flights not found on particular query" });
+        // }
 
-        res.status(200).json({ flights });
+        res.status(200).json({ flights: arr });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: error });
     }
 };
@@ -194,6 +209,24 @@ const viewAllBookingsOnDates = async (req, res) => {
     }
 };
 
+const getFlightDetails = async (req, res) => {
+    try {
+        const flight = await FlightDetail.findById(req.params._id);
+
+        if (!flight) {
+            return res.status(404).json({ error: "Flight not found" });
+        }
+
+        const obj = flight.showFormattedFlight();
+
+        res.status(200).json({ flight: obj });
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({ error: error });
+    }
+};
+
 module.exports = {
     bookTicket,
     searchFlightBasedOnQuery,
@@ -203,6 +236,7 @@ module.exports = {
     removeFlight,
     removeFlights,
     viewAllBookingsAtADate,
-    viewAllBookingsOnDates
+    viewAllBookingsOnDates,
+    getFlightDetails
 };
 

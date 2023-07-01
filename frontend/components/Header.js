@@ -1,124 +1,96 @@
-import { useState, useEffect } from "react";
-import {
-  Navbar,
-  MobileNav,
-  Typography,
-  Button,
-  IconButton,
-} from "@material-tailwind/react";
- 
-export default function Header() {
-  const [openNav, setOpenNav] = useState(false);
- 
-  useEffect(() => {
-    window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
-  }, []);
- 
-  const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Pages
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Blocks
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Docs
-        </a>
-      </Typography>
-    </ul>
-  );
- 
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLogin } from '@/state';
+
+const Header = () => {
+  const token = useSelector(state => state.auth.token);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    if (token) {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        return alert("Something went wrong. Try again!!");
+      }
+
+      dispatch(setLogin(null));
+      router.push("/signin");
+    }
+  }
+
   return (
-    <Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4">
-      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as="a"
-          href="#"
-          className="mr-4 cursor-pointer py-1.5 font-medium"
-        >
-          Material Tailwind
-        </Typography>
-        <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
-          <span>Buy Now</span>
-        </Button>
-        <IconButton
-          variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
+    <header className="bg-gray-800 py-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+
+        <Link href="/" className="text-white text-2xl font-bold">Spicejet</Link>
+
+        <nav className="hidden md:block">
+          <ul className="flex space-x-4">
+            <li>
+
+              <Link href="/" className="text-white hover:text-gray-300">About</Link>
+
+            </li>
+            <li>
+
+              <Link href="/" className="text-white hover:text-gray-300">Services</Link>
+
+            </li>
+            <li>
+              <Link href="/" className="text-white hover:text-gray-300">Contact</Link>
+            </li>
+          </ul>
+        </nav>
+        <div className="md:hidden">
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="text-white hover:text-gray-300 focus:outline-none focus:text-gray-300"
+            aria-label="Toggle navigation"
+          >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              className="h-6 w-6"
+              className="h-6 w-6 fill-current"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
+                className="hidden"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M4 6h16V5H4v1zm0 5h16v-1H4v1zm0 5h16v-1H4v1z"
+              />
+              <path
+                className="block"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0 6h24v-1H0v1zm0 5h24v-1H0v1zm0 5h24v-1H0v1z"
               />
             </svg>
-          )}
-        </IconButton>
-      </div>
-      <MobileNav open={openNav}>
-        <div className="container mx-auto">
-          {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Login</span>
-          </Button>
+          </button>
         </div>
-      </MobileNav>
-    </Navbar>
+        <div>
+          {token &&
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          }
+        </div>
+      </div>
+    </header>
   );
-}
+};
+
+export default Header;

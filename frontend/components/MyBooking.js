@@ -2,11 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const MyBooking = async () => {
-  const token = useSelector(state => state.token);
+  const token = useSelector(state => state.auth.token);
   const [bookings, setBookings] = useState([]);
 
   try {
-    const response = await fetch(`/bookings`, {
+    const response = await fetch(`${NEXT_PUBLIC_SERVER_URL}/bookings`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -24,7 +24,7 @@ const MyBooking = async () => {
     <div>
       {/* {bookings.map(booking => (
         <Card flight={booking} />))
-      } */} 
+      } */}
     </div>
   )
 }

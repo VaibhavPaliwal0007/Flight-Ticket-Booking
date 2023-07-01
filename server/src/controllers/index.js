@@ -2,6 +2,7 @@ const {
     signup,
     login,
     logout,
+    loginAdmin
 } = require("./authentication");
 
 const {
@@ -13,12 +14,14 @@ const {
     removeFlight,
     removeFlights,
     viewAllBookingsAtADate,
-    viewAllBookingsOnDates
+    viewAllBookingsOnDates,
+    getFlightDetails
 } = require("./flight");
 
 module.exports = {
     signup,
     login,
+    loginAdmin,
     logout,
     bookTicket,
     searchFlightBasedOnQuery,
@@ -28,5 +31,6 @@ module.exports = {
     removeFlight,
     removeFlights,
     viewAllBookingsAtADate,
-    viewAllBookingsOnDates
+    viewAllBookingsOnDates,
+    getFlightDetails
 };

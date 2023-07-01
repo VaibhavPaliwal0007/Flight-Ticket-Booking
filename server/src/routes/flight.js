@@ -11,7 +11,8 @@ const { bookTicket,
     removeFlight,
     removeFlights,
     viewAllBookingsAtADate,
-    viewAllBookingsOnDates } = require('../controllers');
+    viewAllBookingsOnDates,
+    getFlightDetails } = require('../controllers');
 
 flightRoute.post('/book/:id', validateSession, bookTicket);
 flightRoute.get('/search', validateSession, searchFlightBasedOnQuery);
@@ -22,6 +23,7 @@ flightRoute.delete('/remove/:_id', validateAdminSession, removeFlight);
 flightRoute.delete('/remove/given', validateAdminSession, removeFlights);
 flightRoute.post('/view/date', validateAdminSession, viewAllBookingsAtADate);
 flightRoute.post('/view/dates', validateAdminSession, viewAllBookingsOnDates);
+flightRoute.get('/view/:_id', getFlightDetails);
 
 module.exports = flightRoute;
 

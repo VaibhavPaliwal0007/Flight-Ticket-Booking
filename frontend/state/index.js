@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   mode: "dark",
   token: null,
-  flights: [], //so as to show them on search page
+  flights: [],
 };
 
 export const authSlice = createSlice({
@@ -14,20 +14,17 @@ export const authSlice = createSlice({
       state.mode = state.mode === "light" ? "dark" : "light";
     },
     setLogin: (state, action) => {
-    //   state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.token = action.payload;
     },
     setLogout: (state) => {
-    //   state.user = null;
       state.token = null;
     },
     setFlights: (state, action) => {
-      state.posts = action.payload.flights;
+      state.flights = action.payload.flights;
     },
 
   },
 });
 
-export const { setMode, setLogin, setLogout, setFlights } =
-  authSlice.actions;
+export const { setMode, setLogin, setLogout, setFlights } = authSlice.actions;
 export default authSlice.reducer;

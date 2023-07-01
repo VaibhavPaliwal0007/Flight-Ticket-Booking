@@ -105,7 +105,7 @@ userSchema.methods.generateAuthToken = async function () {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        throw new Error("Unable to login");
+        throw new Error("Password is incorrect");
     }
 
     return user;

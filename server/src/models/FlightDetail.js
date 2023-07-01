@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const generateTime = require('../helpers/dummyData');
+const generateTime = require('../helpers/generateTime');
+const { airlines } = require("../helpers/airports");
 
 const FlightDetailSchema = new mongoose.Schema({
     from: {
@@ -53,15 +54,16 @@ FlightDetailSchema.statics.findById = async function (id) {
     return flight;
 };
 
-FlightDetailSchema.methods.showFormattedFlight = () => {
+FlightDetailSchema.methods.showFormattedFlight = function() {
     const flight = this;
-    const { from, to, date, passengerCount, group } = flight;
-    const detail = { from, to, date, passengerCount, group };
+    const { _id, from, to, date, group } = flight;
+    const detail = { _id, from, to, date, group };
 
     detail.airline = airlines[Math.floor(Math.random() * airlines.length)];
     detail.price = Math.floor(Math.random() * 7000) + 3000;
     [detail.fromTime, detail.toTime, detail.duration] = generateTime();
-    detail.passengers = [];
+    detail.passengers = flight.passengers;
+    detail.seats = 60 - detail.passengers.length;
 
     return detail;
 };

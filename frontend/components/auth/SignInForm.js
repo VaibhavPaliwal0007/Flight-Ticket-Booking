@@ -3,8 +3,9 @@ import React from 'react';
 import { useRef } from "react";
 import { login } from '@/pages/api/authentication';
 import Link from 'next/link';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { setLogin } from '@/state';
 
 export default function SignInForm(props) {
   const emailInput = useRef();
@@ -14,19 +15,20 @@ export default function SignInForm(props) {
 
   const loginHandler = async (e) => {
     try {
-        e.preventDefault();
+      e.preventDefault();
 
-        const data = {
-          email: emailInput.current.value,
-          password: passwordInput.current.value,
-        }
+      const data = {
+        email: emailInput.current.value,
+        password: passwordInput.current.value,
+      };
 
-        const res = await login(data);
-        dispatch(setLogin(res.token));
-        router.push('/home');
-      } catch (error) {
-          alert(error);
-      }
+      const res = await login(data);
+      dispatch(setLogin(res.token));
+      router.push('/home');
+    } catch (error) {
+      console.log("here", error)
+      alert(error.message);
+    }
   };
 
   return (
@@ -95,7 +97,7 @@ export default function SignInForm(props) {
                 <button
                   type="submit"
                   onClick={loginHandler}
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Sign in
                 </button>
@@ -104,6 +106,12 @@ export default function SignInForm(props) {
                 Don’t have an account yet?{' '}
                 <Link href="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                   Sign up
+                </Link>
+              </p>
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                Sign in as Admin{' '}
+                <Link href="/signinadmin" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                  Sign in
                 </Link>
               </p>
             </form>
