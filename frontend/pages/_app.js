@@ -13,7 +13,7 @@ const store = configureStore({
 export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      {/* <Header /> */}
+      <Header />
       <Component {...pageProps} />
     </Provider>
   )
