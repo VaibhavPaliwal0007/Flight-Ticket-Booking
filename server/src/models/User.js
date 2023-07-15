@@ -29,14 +29,14 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 7,
         trim: true,
-        validate(value) {
-            if (
-                value.toLowerCase().includes("123") ||
-                value.toLowerCase().includes("0000")
-            ) {
-                throw new Error("Please enter a strong password!!");
-            }
-        },
+        // validate(value) {
+        //     if (
+        //         value.toLowerCase().includes("123") ||
+        //         value.toLowerCase().includes("0000")
+        //     ) {
+        //         throw new Error("Please enter a strong password!!");
+        //     }
+        // },
     },
 
     phoneNo: {

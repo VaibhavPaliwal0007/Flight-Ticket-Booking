@@ -42,11 +42,11 @@ const Header = () => {
             </li>
             <li>
 
-              <Link href="/" className="text-white hover:text-gray-300">Services</Link>
+              <Link href="/" className="text-white hover:text-gray-300">Home</Link>
 
             </li>
             <li>
-              <Link href="/" className="text-white hover:text-gray-300">Contact</Link>
+              <Link href="/" className="text-white hover:text-gray-300">My Booking</Link>
             </li>
           </ul>
         </nav>
