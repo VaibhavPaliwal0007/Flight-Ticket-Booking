@@ -10,6 +10,7 @@ const signup = async (req, res) => {
 
         res.status(201).json({ user });
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: error.message });
     }
 };
@@ -23,7 +24,7 @@ const login = async (req, res) => {
 
         const token = await user.generateAuthToken();
 
-        res.status(200).json({token});
+        res.status(200).json({token , isAdmin: user.isAdmin});
     } catch (error){
         res.status(400).json({ error: error.message });
     }
