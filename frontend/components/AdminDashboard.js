@@ -1,4 +1,6 @@
 import { useRef } from "react";
+import Modal from "./Modal";
+import { useState } from "react";
 
 export default function AdminDashboard() {
     const flightName = useRef(""),
@@ -20,6 +22,8 @@ export default function AdminDashboard() {
     const removeFlight = (flightToBeRemoved) => {
         flights = flights.filter(flight => flight._id !== flightToBeRemoved._id)
     };
+
+    const [openModal, setModalOpen] = useState(false);
 
     return (
         <>
@@ -73,7 +77,11 @@ export default function AdminDashboard() {
                                 $2999
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+                                onClick={() => {
+                                    setModalOpen(true);
+                                }}
+                                >Edit</a>
                             </td>
                         </tr>
                         <tr className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
@@ -90,7 +98,11 @@ export default function AdminDashboard() {
                                 $1999
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                onClick={() => {
+                                    setModalOpen(true);
+                                }}
+                                >Edit</a>
                             </td>
                         </tr>
                         <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -107,7 +119,11 @@ export default function AdminDashboard() {
                                 $99
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                onClick={() => {
+                                    setModalOpen(true);
+                                }}
+                                >Edit</a>
                             </td>
                         </tr>
                         <tr className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
@@ -124,7 +140,11 @@ export default function AdminDashboard() {
                                 $799
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                onClick={() => {
+                                    setModalOpen(true);
+                                }}
+                                >Edit</a>
                             </td>
                         </tr>
                         <tr>
@@ -141,12 +161,17 @@ export default function AdminDashboard() {
                                 $999
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                onClick={() => {
+                                    setModalOpen(true);
+                                }}
+                                >Edit</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            {openModal && <Modal closeModal = {setModalOpen}/>}
         </>
     );
 }
