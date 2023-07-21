@@ -9,6 +9,20 @@
 //   }
 // }
 
+export async function loginByToken(){
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/loginByToken`,{
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
+      }
+    })
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export async function login(data) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, {

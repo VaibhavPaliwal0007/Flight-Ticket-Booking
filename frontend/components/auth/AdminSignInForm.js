@@ -29,6 +29,7 @@ export default function AdminSignInForm() {
             const res = await adminLogin(data);
             dispatch(setLogin(res.token));
             dispatch(setRole(res.isAdmin));
+            localStorage.setItem("jwt" , res.token);
             router.push('/admin_dashboard');
         } catch (error) {
             setisError(error);

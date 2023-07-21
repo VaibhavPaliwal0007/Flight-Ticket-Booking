@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useRef , useState} from "react";
-import { login } from '@/pages/api/authentication';
+import { login, loginByToken } from '@/pages/api/authentication';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -30,6 +30,7 @@ export default function SignInForm(props) {
 
       const res = await login(data);
       dispatch(setLogin(res.token));
+      localStorage.setItem("jwt" , res.token);
       router.push('/home');
     } catch (error) {
       setisError(error.message);
@@ -37,6 +38,8 @@ export default function SignInForm(props) {
       // alert(error.message);
     }
   };
+
+
 
   return (
       <section className="bg-gray-50 dark:bg-gray-900">
