@@ -80,10 +80,22 @@ const loginAdmin = async (req, res) => {
     }
 };
 
+const loginByToken  =  async (req,res) => {
+    try {
+
+        const user = req.user;
+        res.send(user);
+
+    } catch (err) {
+        res.status(400).json({ error: err });
+    }
+}
+
 module.exports = {
     signup,
     login,
     logout,
     makeAdmin,
-    loginAdmin
+    loginAdmin,
+    loginByToken
 };

@@ -2,7 +2,8 @@ const {
     signup,
     login,
     logout,
-    loginAdmin
+    loginAdmin,
+    loginByToken
 } = require("./authentication");
 
 const {
@@ -23,6 +24,7 @@ module.exports = {
     login,
     loginAdmin,
     logout,
+    loginByToken,
     bookTicket,
     searchFlightBasedOnQuery,
     searchFlightBasedOnDates,

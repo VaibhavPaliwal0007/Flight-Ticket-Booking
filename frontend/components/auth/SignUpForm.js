@@ -44,6 +44,7 @@ const SignUpForm = (props) => {
       };
 
       const res = await signup(data);
+      
       router.push('/home');
       // console.log(res.body);
     } catch (error) {
