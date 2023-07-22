@@ -80,36 +80,35 @@ export default function SearchFlight() {
     return (
         <>
             
-            <form onSubmit={submitHandler} className="mx-auto mt-10 w-10/12 flex justify-around bg-cyan-200 p-5">
-                <label className="block mb-4 ">
+            <form onSubmit={submitHandler} className="mx-auto mt-10 w-10/12 flex justify-around bg-sky-950 p-5 rounded-lg">
+                <label className="block mb-4 text-white">
                     From City:
                     <input
                     type="text"
                     ref={src}
-                    className="block w-full mt-1 p-2 border-1 border-black-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    className="block w-full mt-1 p-2 border-1 border-black-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 text-black"
                     />
                 </label>
-                <label className="block mb-4">
+                <label className="block mb-4 text-white">
                     To City:
                     <input
                     type="text"
                     ref={dest}
-                    className="block w-full mt-1 p-2 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    className="block w-full mt-1 p-2 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 text-black"
                     />
                 </label>
-                <label className="block mb-4">
+                <label className="block mb-4 text-white">
                     Date:
                     <input
                     type="date"
                     ref={dateRef}
-                    className="block w-full mt-1 p-2 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    className="block w-full mt-1 p-2 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 text-black"
                     />
                 </label>
                 {/* {error && <div className="text-red-500 mb-4">{error}</div>} */}
                     <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
-                    >
+                    className="bg-blue-200 hover:bg-blue-400 font-bold px-4 py-2 rounded text-black h-2/5 my-auto">
                         Search
                     </button>
                 
